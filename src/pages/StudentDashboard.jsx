@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import ProgressSummary from '../components/student/ProgressSummary';
 import AssignmentCard from '../components/student/AssignmentCard';
 import ConfirmDialog from '../components/common/ConfirmDialog';
+import EmptyState from '../components/common/EmptyState';
 
 export default function StudentDashboard() {
   const { currentUser, assignments, submissions, markSubmitted } = useApp();
@@ -63,17 +64,10 @@ export default function StudentDashboard() {
 
       {/* Assignments Grid or Empty State */}
       {totalCount === 0 ? (
-        <div className="bg-white border border-slate-200 rounded-xl p-12 text-center shadow-xs">
-          <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold text-xl mb-3">
-            0
-          </div>
-          <h3 className="text-base font-semibold text-slate-800">
-            No assignments assigned
-          </h3>
-          <p className="mt-1 text-sm text-slate-500 max-w-sm mx-auto">
-            You currently have no assignments assigned to your profile.
-          </p>
-        </div>
+        <EmptyState
+          title="No assignments yet"
+          description="You don't have any assignments assigned right now. Check back later or contact your professor."
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {studentAssignments.map((assignment) => {
@@ -94,7 +88,7 @@ export default function StudentDashboard() {
       <ConfirmDialog
         isOpen={Boolean(pendingAssignment)}
         title="Confirm Submission"
-        message={`Are you sure? This cannot be undone.`}
+        message="Are you sure? This cannot be undone."
         confirmLabel="Yes, submit"
         cancelLabel="Cancel"
         onConfirm={handleConfirmSubmission}

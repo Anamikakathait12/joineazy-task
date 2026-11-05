@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import AdminAssignmentCard from '../components/admin/AdminAssignmentCard';
 import AssignmentForm from '../components/admin/AssignmentForm';
 import ConfirmDialog from '../components/common/ConfirmDialog';
+import EmptyState from '../components/common/EmptyState';
 
 export default function AdminDashboard() {
   const { currentUser, assignments, deleteAssignment } = useApp();
@@ -78,25 +79,12 @@ export default function AdminDashboard() {
 
       {/* Assignments Grid or Empty State */}
       {adminAssignments.length === 0 ? (
-        <div className="bg-white border border-slate-200 rounded-xl p-12 text-center shadow-xs">
-          <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold text-xl mb-3">
-            0
-          </div>
-          <h3 className="text-base font-semibold text-slate-800">
-            No assignments created yet
-          </h3>
-          <p className="mt-1 text-sm text-slate-500 max-w-sm mx-auto mb-6">
-            You haven't created any course assignments yet. Click below to add your first assignment.
-          </p>
-          <button
-            type="button"
-            onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <span>+</span>
-            <span>Create Assignment</span>
-          </button>
-        </div>
+        <EmptyState
+          title="Create your first assignment"
+          description="You haven't created any course assignments yet. Click below to draft and assign coursework to students."
+          actionLabel="Create Assignment"
+          onAction={handleOpenCreate}
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {adminAssignments.map((assignment) => (

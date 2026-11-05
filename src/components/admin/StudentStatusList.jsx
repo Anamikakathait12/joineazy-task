@@ -14,8 +14,9 @@ export default function StudentStatusList({ assignment, students = [], submissio
 
   if (assignedIds.length === 0) {
     return (
-      <div className="py-3 text-center text-xs text-slate-500">
-        No students currently assigned.
+      <div className="py-4 px-3 text-center bg-white rounded-lg border border-dashed border-slate-200">
+        <p className="text-xs font-semibold text-slate-700">No students assigned</p>
+        <p className="text-[11px] text-slate-400 mt-0.5">Edit this assignment to assign students.</p>
       </div>
     );
   }

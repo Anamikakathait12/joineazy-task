@@ -208,6 +208,54 @@ export function AppProvider({ children }) {
     });
   };
 
+  const retryLoad = () => {
+    setError(null);
+    setLoading(true);
+    setTimeout(() => {
+      try {
+        const loadedUsers = loadData(STORAGE_KEYS.USERS, seedUsers);
+        const syncedUsers = seedUsers.map((seedU) => {
+          const existing = Array.isArray(loadedUsers)
+            ? loadedUsers.find((u) => u.id === seedU.id)
+            : null;
+          return existing ? { ...existing, name: seedU.name, email: seedU.email, role: seedU.role } : seedU;
+        });
+
+        const loadedAssignments = loadData(STORAGE_KEYS.ASSIGNMENTS, seedAssignments);
+        const loadedSubmissions = loadData(STORAGE_KEYS.SUBMISSIONS, seedSubmissions);
+        const loadedCurrentUser = loadData(STORAGE_KEYS.CURRENT_USER, null);
+
+        setUsers(syncedUsers);
+        setAssignments(loadedAssignments);
+        setSubmissions(loadedSubmissions);
+        setCurrentUser(loadedCurrentUser);
+        setLoading(false);
+      } catch (err) {
+        console.error('Failed to reload data:', err);
+        setError('Failed to reload application data.');
+        setLoading(false);
+      }
+    }, 250);
+  };
+
+  const resetData = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEYS.USERS);
+      localStorage.removeItem(STORAGE_KEYS.ASSIGNMENTS);
+      localStorage.removeItem(STORAGE_KEYS.SUBMISSIONS);
+      localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+
+      setUsers(seedUsers);
+      setAssignments(seedAssignments);
+      setSubmissions(seedSubmissions);
+      setCurrentUser(null);
+      setError(null);
+      setLoading(false);
+    } catch (err) {
+      console.error('Failed to reset data:', err);
+    }
+  };
+
   const value = {
     users,
     assignments,
@@ -221,6 +269,8 @@ export function AppProvider({ children }) {
     updateAssignment,
     deleteAssignment,
     markSubmitted,
+    retryLoad,
+    resetData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
