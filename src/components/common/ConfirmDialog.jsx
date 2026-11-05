@@ -46,23 +46,22 @@ export default function ConfirmDialog({
       role="dialog"
       aria-modal="true"
       aria-labelledby="confirm-dialog-title"
-      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4"
       onClick={(e) => {
-        // Close if the user clicked directly on the backdrop container
         if (e.target === e.currentTarget) {
           onCancel();
         }
       }}
     >
-      <div className="relative bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-200">
+      <div className="relative bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-xl border border-slate-200 my-auto">
         <h3
           id="confirm-dialog-title"
-          className="text-lg font-bold text-slate-900"
+          className="text-base sm:text-lg font-bold text-slate-900 break-words"
         >
           {title}
         </h3>
 
-        <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+        <p className="mt-2 text-sm text-slate-600 leading-relaxed break-words">
           {message}
         </p>
 
@@ -70,7 +69,7 @@ export default function ConfirmDialog({
           <button
             type="button"
             onClick={onCancel}
-            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400"
+            className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 min-h-[44px] rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
           >
             {cancelLabel}
           </button>
@@ -78,7 +77,7 @@ export default function ConfirmDialog({
           <button
             type="button"
             onClick={onConfirm}
-            className={`w-full sm:w-auto px-4 py-2 text-sm font-semibold text-white rounded-lg transition focus:outline-none focus:ring-2 ${
+            className={`w-full sm:w-auto px-4 py-2.5 text-sm font-semibold text-white min-h-[44px] rounded-lg transition focus:outline-none focus:ring-2 cursor-pointer ${
               isDestructive
                 ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500'
                 : 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500'
@@ -91,4 +90,3 @@ export default function ConfirmDialog({
     </div>
   );
 }
-

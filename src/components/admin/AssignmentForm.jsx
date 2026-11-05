@@ -50,6 +50,8 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
   useEffect(() => {
     if (!isOpen) return;
 
+    const studentList = users.filter((u) => u.role === 'student');
+
     if (initialData) {
       setTitle(initialData.title || '');
       setDescription(initialData.description || '');
@@ -57,12 +59,14 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
       setDriveLink(initialData.driveLink || '');
 
       const assigned = Array.isArray(initialData.assignedTo) ? initialData.assignedTo : [];
-      const isAll = students.length > 0 && assigned.length === students.length &&
-        students.every((s) => assigned.includes(s.id));
+      const isAll =
+        studentList.length > 0 &&
+        assigned.length === studentList.length &&
+        studentList.every((s) => assigned.includes(s.id));
 
       if (isAll) {
         setAssignMode('all');
-        setSelectedStudentIds(students.map((s) => s.id));
+        setSelectedStudentIds(studentList.map((s) => s.id));
       } else {
         setAssignMode('selected');
         setSelectedStudentIds(assigned);
@@ -74,7 +78,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
       setDueDate('');
       setDriveLink('');
       setAssignMode('all');
-      setSelectedStudentIds(students.map((s) => s.id));
+      setSelectedStudentIds(studentList.map((s) => s.id));
     }
 
     setErrors({});
@@ -174,28 +178,29 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="assignment-form-title"
-      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative bg-white rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-xl border border-slate-200 my-8">
+      <div className="relative bg-white rounded-2xl max-w-xl w-full p-5 sm:p-7 shadow-xl border border-slate-200 my-auto max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-          <h3 id="assignment-form-title" className="text-xl font-bold text-slate-900">
+        <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4 shrink-0">
+          <h3 id="assignment-form-title" className="text-lg sm:text-xl font-bold text-slate-900">
             {isEditMode ? 'Edit Assignment' : 'Create New Assignment'}
           </h3>
           <button
             type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 rounded-lg p-1 transition"
+            className="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 transition text-lg leading-none cursor-pointer"
             aria-label="Close form"
           >
             &times;
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="space-y-5">
+        {/* Scrollable Form Body */}
+        <form onSubmit={handleSubmit} noValidate className="space-y-4 overflow-y-auto pr-1">
           {/* Title */}
           <div>
             <label htmlFor="form-title" className="block text-sm font-semibold text-slate-700">
@@ -210,7 +215,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                 if (errors.title) setErrors((prev) => ({ ...prev, title: '' }));
               }}
               placeholder="e.g. Assignment 1: Distributed Systems Project"
-              className={`mt-1.5 block w-full px-3.5 py-2 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
+              className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
                 errors.title
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                   : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
@@ -235,7 +240,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                 if (errors.description) setErrors((prev) => ({ ...prev, description: '' }));
               }}
               placeholder="Provide instructions, project requirements, and rubric details..."
-              className={`mt-1.5 block w-full px-3.5 py-2 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
+              className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
                 errors.description
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                   : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
@@ -261,7 +266,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                   setDueDate(e.target.value);
                   if (errors.dueDate) setErrors((prev) => ({ ...prev, dueDate: '' }));
                 }}
-                className={`mt-1.5 block w-full px-3.5 py-2 rounded-lg border text-sm text-slate-800 focus:outline-none focus:ring-2 ${
+                className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 focus:outline-none focus:ring-2 ${
                   errors.dueDate
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                     : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
@@ -286,7 +291,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                   if (errors.driveLink) setErrors((prev) => ({ ...prev, driveLink: '' }));
                 }}
                 placeholder="https://drive.google.com/..."
-                className={`mt-1.5 block w-full px-3.5 py-2 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
+                className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
                   errors.driveLink
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                     : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
@@ -304,8 +309,8 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
               Assign To <span className="text-red-500">*</span>
             </span>
 
-            <div className="flex items-center gap-6 mb-3">
-              <label className="inline-flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 mb-3">
+              <label className="inline-flex items-center gap-2 text-sm text-slate-700 cursor-pointer min-h-[36px]">
                 <input
                   type="radio"
                   name="assignMode"
@@ -320,7 +325,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                 <span>All students ({students.length})</span>
               </label>
 
-              <label className="inline-flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <label className="inline-flex items-center gap-2 text-sm text-slate-700 cursor-pointer min-h-[36px]">
                 <input
                   type="radio"
                   name="assignMode"
@@ -338,13 +343,13 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
 
             {/* Checkbox list when 'selected' is active */}
             {assignMode === 'selected' && (
-              <div className="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-lg max-h-48 overflow-y-auto space-y-2">
+              <div className="mt-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg max-h-44 overflow-y-auto space-y-1">
                 {students.map((student) => {
                   const isChecked = selectedStudentIds.includes(student.id);
                   return (
                     <label
                       key={student.id}
-                      className="flex items-center gap-2.5 p-1.5 hover:bg-slate-100 rounded cursor-pointer transition text-sm"
+                      className="flex items-center gap-2.5 p-2 hover:bg-slate-100 rounded cursor-pointer transition text-xs sm:text-sm min-h-[36px]"
                     >
                       <input
                         type="checkbox"
@@ -355,8 +360,8 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                         }}
                         className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                       />
-                      <span className="font-medium text-slate-800">{student.name}</span>
-                      <span className="text-xs text-slate-400">({student.email})</span>
+                      <span className="font-medium text-slate-800 truncate">{student.name}</span>
+                      <span className="text-[11px] text-slate-400 truncate">({student.email})</span>
                     </label>
                   );
                 })}
@@ -369,18 +374,18 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
           </div>
 
           {/* Form Actions */}
-          <div className="mt-8 pt-4 border-t border-slate-100 flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3">
+          <div className="pt-4 border-t border-slate-100 flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400"
+              className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 min-h-[44px] rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="w-full sm:w-auto px-5 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full sm:w-auto px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 min-h-[44px] rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
             >
               {isEditMode ? 'Save Changes' : 'Create Assignment'}
             </button>
@@ -390,4 +395,3 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
     </div>
   );
 }
-

@@ -48,13 +48,13 @@ export default function StudentDashboard() {
   };
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Page Title & Greeting */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-slate-900">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
           My Assignments
         </h2>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-xs sm:text-sm text-slate-500">
           Review your course assignments, access drive resources, and submit your work.
         </p>
       </div>

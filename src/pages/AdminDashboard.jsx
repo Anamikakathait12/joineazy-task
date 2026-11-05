@@ -53,14 +53,14 @@ export default function AdminDashboard() {
   };
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Page Header with Action Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
             Course Assignments
           </h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-xs sm:text-sm text-slate-500">
             Manage assignments you created, track student progress, and distribute drive materials.
           </p>
         </div>
@@ -69,7 +69,7 @@ export default function AdminDashboard() {
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
           >
             <span>+</span>
             <span>Create Assignment</span>

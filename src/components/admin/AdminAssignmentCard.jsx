@@ -33,26 +33,26 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
   const percentage = totalAssigned > 0 ? Math.round((submittedCount / totalAssigned) * 100) : 0;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs hover:border-slate-300 transition flex flex-col justify-between">
+    <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-xs hover:border-slate-300 transition flex flex-col justify-between">
       <div>
         {/* Top Header: Due Date & Student Count */}
-        <div className="flex items-center justify-between gap-2 mb-3">
+        <div className="flex items-center justify-between gap-2 flex-wrap mb-3">
           <span className="text-xs text-slate-500 font-medium">
             Due: {formatDate(assignment.dueDate) || 'No deadline'}
           </span>
 
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 shrink-0">
             {totalAssigned} {totalAssigned === 1 ? 'student' : 'students'}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-base font-bold text-slate-900 leading-snug">
+        <h3 className="text-base font-bold text-slate-900 leading-snug break-words">
           {assignment.title}
         </h3>
 
         {/* Description */}
-        <p className="mt-2 text-sm text-slate-600 line-clamp-3 leading-relaxed">
+        <p className="mt-2 text-sm text-slate-600 line-clamp-3 leading-relaxed break-words">
           {assignment.description || 'No description provided.'}
         </p>
 
@@ -63,7 +63,7 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
               href={assignment.driveLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 hover:underline py-1 min-h-[36px]"
             >
               <span>Open Drive Link</span>
               <span aria-hidden="true">&rarr;</span>
@@ -73,7 +73,7 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
 
         {/* Class Completion Progress Bar Section */}
         <div className="mt-4 pt-3 border-t border-slate-100">
-          <div className="flex items-center justify-between text-xs mb-1.5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs gap-1 mb-1.5">
             <span className="font-semibold text-slate-700">Class Completion</span>
             <span className="font-medium text-slate-500">
               {submittedCount} of {totalAssigned} submitted ({percentage}%)
@@ -87,7 +87,7 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
           <button
             type="button"
             onClick={() => setIsExpanded((prev) => !prev)}
-            className="w-full text-left flex items-center justify-between text-xs font-semibold text-indigo-600 hover:text-indigo-800 py-1 transition"
+            className="w-full text-left flex items-center justify-between text-xs font-semibold text-indigo-600 hover:text-indigo-800 py-1.5 min-h-[36px] transition cursor-pointer"
           >
             <span>{isExpanded ? 'Hide students' : 'View students'}</span>
             <span className="text-[10px] bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded-md">
@@ -112,7 +112,7 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
         <button
           type="button"
           onClick={() => onEdit(assignment)}
-          className="px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400"
+          className="px-3.5 py-2 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 min-h-[38px] rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
         >
           Edit
         </button>
@@ -120,7 +120,7 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
         <button
           type="button"
           onClick={() => onDelete(assignment)}
-          className="px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-red-400"
+          className="px-3.5 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 min-h-[38px] rounded-lg transition focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
         >
           Delete
         </button>
