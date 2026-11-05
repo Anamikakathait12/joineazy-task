@@ -1,17 +1,117 @@
+import { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import AdminAssignmentCard from '../components/admin/AdminAssignmentCard';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 
 export default function AdminDashboard() {
-  const { currentUser } = useApp();
+  const { currentUser, assignments, deleteAssignment } = useApp();
+  const [assignmentToDelete, setAssignmentToDelete] = useState(null);
+
+  // Strictly isolate assignments to only those created by the current admin
+  const adminAssignments = assignments.filter(
+    (asg) => asg.createdBy === currentUser?.id
+  );
+
+  // Handle Edit action placeholder
+  const handleEdit = (assignment) => {
+    // Placeholder handler for now
+    console.log('Edit clicked for assignment:', assignment.id);
+  };
+
+  // Open confirmation modal for deleting
+  const handleOpenDeleteConfirm = (assignment) => {
+    setAssignmentToDelete(assignment);
+  };
+
+  // Confirm delete action
+  const handleConfirmDelete = () => {
+    if (assignmentToDelete) {
+      deleteAssignment(assignmentToDelete.id);
+      setAssignmentToDelete(null);
+    }
+  };
+
+  // Cancel delete
+  const handleCancelDelete = () => {
+    setAssignmentToDelete(null);
+  };
+
+  // Create Assignment placeholder handler
+  const handleCreateAssignment = () => {
+    // Placeholder handler for now
+    console.log('Create Assignment button clicked');
+  };
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-xs">
-        <h2 className="text-xl font-bold text-slate-800">Admin Dashboard</h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Welcome back, {currentUser?.name}. Manage your assignments and track student submissions here.
-        </p>
+      {/* Page Header with Action Button */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900">
+            Course Assignments
+          </h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Manage assignments you created, track student progress, and distribute drive materials.
+          </p>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            onClick={handleCreateAssignment}
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <span>+</span>
+            <span>Create Assignment</span>
+          </button>
+        </div>
       </div>
+
+      {/* Assignments Grid or Empty State */}
+      {adminAssignments.length === 0 ? (
+        <div className="bg-white border border-slate-200 rounded-xl p-12 text-center shadow-xs">
+          <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold text-xl mb-3">
+            0
+          </div>
+          <h3 className="text-base font-semibold text-slate-800">
+            No assignments created yet
+          </h3>
+          <p className="mt-1 text-sm text-slate-500 max-w-sm mx-auto mb-6">
+            You haven't created any course assignments yet. Click below to add your first assignment.
+          </p>
+          <button
+            type="button"
+            onClick={handleCreateAssignment}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <span>+</span>
+            <span>Create Assignment</span>
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {adminAssignments.map((assignment) => (
+            <AdminAssignmentCard
+              key={assignment.id}
+              assignment={assignment}
+              onEdit={handleEdit}
+              onDelete={handleOpenDeleteConfirm}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={Boolean(assignmentToDelete)}
+        title="Delete Assignment"
+        message={`Are you sure you want to delete "${assignmentToDelete?.title}"? This action cannot be undone and will permanently remove all associated student submissions.`}
+        confirmLabel="Delete Assignment"
+        cancelLabel="Cancel"
+        isDestructive={true}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </main>
   );
 }
-
