@@ -35,14 +35,28 @@ export function AppProvider({ children }) {
 
         try {
           const loadedUsers = loadData(STORAGE_KEYS.USERS, seedUsers);
+          // Keep user names/emails synchronized with seed definitions if updated
+          const syncedUsers = seedUsers.map((seedU) => {
+            const existing = Array.isArray(loadedUsers)
+              ? loadedUsers.find((u) => u.id === seedU.id)
+              : null;
+            return existing ? { ...existing, name: seedU.name, email: seedU.email, role: seedU.role } : seedU;
+          });
+
           const loadedAssignments = loadData(STORAGE_KEYS.ASSIGNMENTS, seedAssignments);
           const loadedSubmissions = loadData(STORAGE_KEYS.SUBMISSIONS, seedSubmissions);
           const loadedCurrentUser = loadData(STORAGE_KEYS.CURRENT_USER, null);
 
-          setUsers(loadedUsers);
+          setUsers(syncedUsers);
           setAssignments(loadedAssignments);
           setSubmissions(loadedSubmissions);
-          setCurrentUser(loadedCurrentUser);
+          // If the logged in user was updated, update currentUser as well
+          if (loadedCurrentUser) {
+            const updatedCurrent = syncedUsers.find((u) => u.id === loadedCurrentUser.id);
+            setCurrentUser(updatedCurrent || loadedCurrentUser);
+          } else {
+            setCurrentUser(null);
+          }
           setLoading(false);
         } catch (err) {
           console.error('Error loading data from storage:', err);
