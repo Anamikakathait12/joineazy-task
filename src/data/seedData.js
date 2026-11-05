@@ -1,5 +1,5 @@
 // 2 admins and 5 students
-export const INITIAL_USERS = [
+export const users = [
   {
     id: 'admin-1',
     name: 'Dr. Alan Turing',
@@ -14,38 +14,38 @@ export const INITIAL_USERS = [
   },
   {
     id: 'student-1',
-    name: 'Eleven Jones',
-    email: 'eleven.jones@student.edu',
+    name: 'Ada Lovelace',
+    email: 'ada.lovelace@student.edu',
     role: 'student',
   },
   {
     id: 'student-2',
-    name: 'Mike Wheeler',
-    email: 'mike.wheeler@student.edu',
+    name: 'Claude Shannon',
+    email: 'claude.shannon@student.edu',
     role: 'student',
   },
   {
     id: 'student-3',
-    name: 'Will Byers',
-    email: 'will.byers@student.edu',
+    name: 'Margaret Hamilton',
+    email: 'margaret.hamilton@student.edu',
     role: 'student',
   },
   {
     id: 'student-4',
-    name: 'Dustin Henderson',
-    email: 'dustin.henderson@student.edu',
+    name: 'John von Neumann',
+    email: 'john.neumann@student.edu',
     role: 'student',
   },
   {
     id: 'student-5',
-    name: 'Steve Harrington',
-    email: 'steve.harrington@student.edu',
+    name: 'Katherine Johnson',
+    email: 'katherine.johnson@student.edu',
     role: 'student',
   },
 ];
 
 // 4-5 sample assignments created by admins and assigned to various students
-export const INITIAL_ASSIGNMENTS = [
+export const assignments = [
   {
     id: 'asg-1',
     title: 'Assignment 1: Turing Machine Simulator',
@@ -85,7 +85,7 @@ export const INITIAL_ASSIGNMENTS = [
 ];
 
 // Seeded submissions with a mix of 'submitted' and 'not_submitted'
-export const INITIAL_SUBMISSIONS = [
+export const submissions = [
   // For asg-1 (all 5 assigned)
   {
     assignmentId: 'asg-1',
