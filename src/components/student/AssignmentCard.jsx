@@ -76,7 +76,7 @@ export default function AssignmentCard({ assignment, submission, onMarkSubmitted
             onClick={() => onMarkSubmitted(assignment)}
             className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm py-2 px-3 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Mark as Submitted
+            Yes, I have submitted
           </button>
         )}
       </div>

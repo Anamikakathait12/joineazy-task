@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import ProgressSummary from '../components/student/ProgressSummary';
 import AssignmentCard from '../components/student/AssignmentCard';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 
 export default function StudentDashboard() {
   const { currentUser, assignments, submissions, markSubmitted } = useApp();
+  const [pendingAssignment, setPendingAssignment] = useState(null);
 
   // Filter assignments to only those explicitly assigned to this student
   const studentAssignments = assignments.filter(
@@ -25,11 +28,22 @@ export default function StudentDashboard() {
 
   const totalCount = studentAssignments.length;
 
-  // Handler for marking as submitted (wired directly for now; step 6 will add dialog)
-  const handleMarkSubmitted = (assignment) => {
-    if (currentUser?.id) {
-      markSubmitted(assignment.id, currentUser.id);
+  // Step 1: Open the confirmation dialog with the selected assignment
+  const handleOpenConfirm = (assignment) => {
+    setPendingAssignment(assignment);
+  };
+
+  // Step 2: Confirm and submit
+  const handleConfirmSubmission = () => {
+    if (pendingAssignment && currentUser?.id) {
+      markSubmitted(pendingAssignment.id, currentUser.id);
+      setPendingAssignment(null);
     }
+  };
+
+  // Step 2 Cancel: Dismiss modal without changing state
+  const handleCancelSubmission = () => {
+    setPendingAssignment(null);
   };
 
   return (
@@ -69,12 +83,23 @@ export default function StudentDashboard() {
                 key={assignment.id}
                 assignment={assignment}
                 submission={submission}
-                onMarkSubmitted={handleMarkSubmitted}
+                onMarkSubmitted={handleOpenConfirm}
               />
             );
           })}
         </div>
       )}
+
+      {/* Two-step Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={Boolean(pendingAssignment)}
+        title="Confirm Submission"
+        message={`Are you sure? This cannot be undone.`}
+        confirmLabel="Yes, submit"
+        cancelLabel="Cancel"
+        onConfirm={handleConfirmSubmission}
+        onCancel={handleCancelSubmission}
+      />
     </main>
   );
 }
