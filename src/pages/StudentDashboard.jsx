@@ -1,17 +1,80 @@
 import { useApp } from '../context/AppContext';
+import ProgressSummary from '../components/student/ProgressSummary';
+import AssignmentCard from '../components/student/AssignmentCard';
 
 export default function StudentDashboard() {
-  const { currentUser } = useApp();
+  const { currentUser, assignments, submissions, markSubmitted } = useApp();
+
+  // Filter assignments to only those explicitly assigned to this student
+  const studentAssignments = assignments.filter(
+    (asg) => Array.isArray(asg.assignedTo) && asg.assignedTo.includes(currentUser?.id)
+  );
+
+  // Map each assignment to this student's submission record
+  const getStudentSubmission = (assignmentId) => {
+    return submissions.find(
+      (sub) => sub.assignmentId === assignmentId && sub.studentId === currentUser?.id
+    );
+  };
+
+  // Count submitted assignments
+  const submittedCount = studentAssignments.filter((asg) => {
+    const sub = getStudentSubmission(asg.id);
+    return sub?.status === 'submitted';
+  }).length;
+
+  const totalCount = studentAssignments.length;
+
+  // Handler for marking as submitted (wired directly for now; step 6 will add dialog)
+  const handleMarkSubmitted = (assignment) => {
+    if (currentUser?.id) {
+      markSubmitted(assignment.id, currentUser.id);
+    }
+  };
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-xs">
-        <h2 className="text-xl font-bold text-slate-800">Student Dashboard</h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Welcome back, {currentUser?.name}. Your assigned tasks will appear here.
+      {/* Page Title & Greeting */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-slate-900">
+          My Assignments
+        </h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Review your course assignments, access drive resources, and submit your work.
         </p>
       </div>
+
+      {/* Progress Bar Summary */}
+      <ProgressSummary total={totalCount} submitted={submittedCount} />
+
+      {/* Assignments Grid or Empty State */}
+      {totalCount === 0 ? (
+        <div className="bg-white border border-slate-200 rounded-xl p-12 text-center shadow-xs">
+          <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold text-xl mb-3">
+            0
+          </div>
+          <h3 className="text-base font-semibold text-slate-800">
+            No assignments assigned
+          </h3>
+          <p className="mt-1 text-sm text-slate-500 max-w-sm mx-auto">
+            You currently have no assignments assigned to your profile.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {studentAssignments.map((assignment) => {
+            const submission = getStudentSubmission(assignment.id);
+            return (
+              <AssignmentCard
+                key={assignment.id}
+                assignment={assignment}
+                submission={submission}
+                onMarkSubmitted={handleMarkSubmitted}
+              />
+            );
+          })}
+        </div>
+      )}
     </main>
   );
 }
-
