@@ -1,21 +1,36 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import AdminAssignmentCard from '../components/admin/AdminAssignmentCard';
+import AssignmentForm from '../components/admin/AssignmentForm';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 
 export default function AdminDashboard() {
   const { currentUser, assignments, deleteAssignment } = useApp();
   const [assignmentToDelete, setAssignmentToDelete] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingAssignment, setEditingAssignment] = useState(null);
 
   // Strictly isolate assignments to only those created by the current admin
   const adminAssignments = assignments.filter(
     (asg) => asg.createdBy === currentUser?.id
   );
 
-  // Handle Edit action placeholder
-  const handleEdit = (assignment) => {
-    // Placeholder handler for now
-    console.log('Edit clicked for assignment:', assignment.id);
+  // Open form in Create mode
+  const handleOpenCreate = () => {
+    setEditingAssignment(null);
+    setIsFormOpen(true);
+  };
+
+  // Open form in Edit mode
+  const handleOpenEdit = (assignment) => {
+    setEditingAssignment(assignment);
+    setIsFormOpen(true);
+  };
+
+  // Close form
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+    setEditingAssignment(null);
   };
 
   // Open confirmation modal for deleting
@@ -36,12 +51,6 @@ export default function AdminDashboard() {
     setAssignmentToDelete(null);
   };
 
-  // Create Assignment placeholder handler
-  const handleCreateAssignment = () => {
-    // Placeholder handler for now
-    console.log('Create Assignment button clicked');
-  };
-
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Page Header with Action Button */}
@@ -58,7 +67,7 @@ export default function AdminDashboard() {
         <div>
           <button
             type="button"
-            onClick={handleCreateAssignment}
+            onClick={handleOpenCreate}
             className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <span>+</span>
@@ -81,7 +90,7 @@ export default function AdminDashboard() {
           </p>
           <button
             type="button"
-            onClick={handleCreateAssignment}
+            onClick={handleOpenCreate}
             className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <span>+</span>
@@ -94,12 +103,19 @@ export default function AdminDashboard() {
             <AdminAssignmentCard
               key={assignment.id}
               assignment={assignment}
-              onEdit={handleEdit}
+              onEdit={handleOpenEdit}
               onDelete={handleOpenDeleteConfirm}
             />
           ))}
         </div>
       )}
+
+      {/* Create / Edit Assignment Modal Form */}
+      <AssignmentForm
+        isOpen={isFormOpen}
+        initialData={editingAssignment}
+        onClose={handleCloseForm}
+      />
 
       {/* Delete Confirmation Dialog */}
       <ConfirmDialog
