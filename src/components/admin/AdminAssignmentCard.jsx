@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import { useApp } from '../../context/AppContext';
 import { formatDate } from '../../utils/helpers';
+import ProgressBar from '../common/ProgressBar';
+import StudentStatusList from './StudentStatusList';
 
 /**
  * AdminAssignmentCard displays assignment information for professors/admins,
- * including student count, Drive link, and actions to Edit or Delete.
+ * including completion progress bar, student status tracking, and Edit/Delete controls.
  *
  * @param {{
  *   assignment: object,
@@ -11,9 +15,22 @@ import { formatDate } from '../../utils/helpers';
  * }} props
  */
 export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
-  const studentCount = Array.isArray(assignment.assignedTo)
-    ? assignment.assignedTo.length
-    : 0;
+  const { users, submissions } = useApp();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const students = users.filter((u) => u.role === 'student');
+  const assignedList = Array.isArray(assignment.assignedTo) ? assignment.assignedTo : [];
+  const totalAssigned = assignedList.length;
+
+  // Calculate submission stats for this assignment
+  const submittedCount = submissions.filter(
+    (s) =>
+      s.assignmentId === assignment.id &&
+      assignedList.includes(s.studentId) &&
+      s.status === 'submitted'
+  ).length;
+
+  const percentage = totalAssigned > 0 ? Math.round((submittedCount / totalAssigned) * 100) : 0;
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs hover:border-slate-300 transition flex flex-col justify-between">
@@ -24,8 +41,8 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
             Due: {formatDate(assignment.dueDate) || 'No deadline'}
           </span>
 
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
-            {studentCount} {studentCount === 1 ? 'student' : 'students'}
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+            {totalAssigned} {totalAssigned === 1 ? 'student' : 'students'}
           </span>
         </div>
 
@@ -53,6 +70,41 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
             </a>
           </div>
         )}
+
+        {/* Class Completion Progress Bar Section */}
+        <div className="mt-4 pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-between text-xs mb-1.5">
+            <span className="font-semibold text-slate-700">Class Completion</span>
+            <span className="font-medium text-slate-500">
+              {submittedCount} of {totalAssigned} submitted ({percentage}%)
+            </span>
+          </div>
+          <ProgressBar value={submittedCount} max={totalAssigned} heightClass="h-2" />
+        </div>
+
+        {/* Expandable Student Status Section */}
+        <div className="mt-3 pt-2">
+          <button
+            type="button"
+            onClick={() => setIsExpanded((prev) => !prev)}
+            className="w-full text-left flex items-center justify-between text-xs font-semibold text-indigo-600 hover:text-indigo-800 py-1 transition"
+          >
+            <span>{isExpanded ? 'Hide students' : 'View students'}</span>
+            <span className="text-[10px] bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded-md">
+              {isExpanded ? '▲' : '▼'}
+            </span>
+          </button>
+
+          {isExpanded && (
+            <div className="mt-2 p-2.5 bg-slate-50 rounded-lg border border-slate-100 max-h-48 overflow-y-auto">
+              <StudentStatusList
+                assignment={assignment}
+                students={students}
+                submissions={submissions}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Action Buttons: Edit & Delete */}
@@ -76,4 +128,3 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
     </div>
   );
 }
-

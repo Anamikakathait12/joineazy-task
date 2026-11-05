@@ -1,3 +1,5 @@
+import ProgressBar from '../common/ProgressBar';
+
 /**
  * ProgressSummary displays the student's submission completion stats and visual progress bar.
  *
@@ -25,21 +27,8 @@ export default function ProgressSummary({ total = 0, submitted = 0 }) {
         </div>
       </div>
 
-      {/* Progress Bar Track */}
-      <div
-        className="w-full bg-slate-100 rounded-full h-3 overflow-hidden"
-        role="progressbar"
-        aria-valuenow={percentage}
-        aria-valuemin="0"
-        aria-valuemax="100"
-        aria-label="Submission progress"
-      >
-        <div
-          className="h-full bg-indigo-600 transition-all duration-300 rounded-full"
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
+      {/* Shared Progress Bar */}
+      <ProgressBar value={submitted} max={total} heightClass="h-3" />
     </div>
   );
 }
-
