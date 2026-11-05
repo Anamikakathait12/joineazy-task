@@ -1,5 +1,5 @@
 /**
- * Reusable EmptyState component.
+ * Reusable EmptyState component styled for KarLoJi.
  *
  * @param {{
  *   title: string,
@@ -18,20 +18,20 @@ export default function EmptyState({
 }) {
   if (compact) {
     return (
-      <div className="py-4 px-3 text-center bg-slate-50 border border-dashed border-slate-200 rounded-lg">
-        <p className="text-xs font-medium text-slate-700">{title}</p>
+      <div className="py-4 px-3 text-center bg-white border border-dashed border-[#E6DEFF] rounded-2xl">
+        <p className="text-xs font-bold text-[#1E1B4B]">{title}</p>
         {description && <p className="text-[11px] text-slate-400 mt-0.5">{description}</p>}
       </div>
     );
   }
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-10 sm:p-14 text-center shadow-xs">
-      <div className="w-12 h-12 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold text-lg mb-3">
+    <div className="bg-white border border-[#E6DEFF] rounded-3xl p-10 sm:p-14 text-center shadow-md">
+      <div className="w-12 h-12 mx-auto rounded-2xl bg-[#F3EEFF] border border-[#E6DEFF] flex items-center justify-center text-[#3B1FA8] font-extrabold text-lg mb-3">
         0
       </div>
 
-      <h3 className="text-base font-bold text-slate-800">
+      <h3 className="text-base sm:text-lg font-extrabold text-[#1E1B4B]">
         {title}
       </h3>
 
@@ -46,9 +46,9 @@ export default function EmptyState({
           <button
             type="button"
             onClick={onAction}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#3B1FA8] hover:bg-[#2E1685] text-white text-sm font-bold rounded-full shadow-md transition focus:outline-none focus:ring-2 focus:ring-[#3B1FA8] cursor-pointer"
           >
-            <span>+</span>
+            <span className="text-base leading-none">+</span>
             <span>{actionLabel}</span>
           </button>
         </div>
@@ -56,4 +56,3 @@ export default function EmptyState({
     </div>
   );
 }
-

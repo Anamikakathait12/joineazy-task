@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-cursive: 'Caveat', cursive, sans-serif;
+  --color-karloji-sidebar-from: #140E3A;
+  --color-karloji-sidebar-to: #2A1A6B;
+  --color-karloji-active-pill: #5B3FD0;
+  --color-karloji-primary: #3B1FA8;
+  --color-karloji-primary-hover: #2E1685;
+  --color-karloji-tint: #EDE7FF;
+  --color-karloji-border: #E3DAFF;
+  --color-karloji-heading: #1E1B4B;
+  --color-karloji-success: #10B981;
+  --color-karloji-lavender-track: #E4DCFF;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #F6F2FF;
+  color: #475569;
+}
+
+.font-cursive {
+  font-family: 'Caveat', cursive, sans-serif;
+}

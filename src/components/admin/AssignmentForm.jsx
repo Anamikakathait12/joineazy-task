@@ -25,7 +25,7 @@ function isValidUrl(string) {
 }
 
 /**
- * Modal form for creating and editing assignments.
+ * Modal form for creating and editing assignments styled for KarLoJi.
  *
  * @param {{
  *   isOpen: boolean,
@@ -178,21 +178,21 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="assignment-form-title"
-      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4"
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#1A1245]/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative bg-white rounded-2xl max-w-xl w-full p-5 sm:p-7 shadow-xl border border-slate-200 my-auto max-h-[92vh] flex flex-col">
+      <div className="relative bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-[#E6DEFF] my-auto max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4 shrink-0">
-          <h3 id="assignment-form-title" className="text-lg sm:text-xl font-bold text-slate-900">
+        <div className="flex items-center justify-between pb-3.5 border-b border-[#F3EEFF] mb-4 shrink-0">
+          <h3 id="assignment-form-title" className="text-lg sm:text-xl font-extrabold text-[#1E1B4B]">
             {isEditMode ? 'Edit Assignment' : 'Create New Assignment'}
           </h3>
           <button
             type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 transition text-lg leading-none cursor-pointer"
+            className="text-slate-400 hover:text-slate-600 rounded-xl p-1.5 transition text-lg leading-none cursor-pointer"
             aria-label="Close form"
           >
             &times;
@@ -203,7 +203,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
         <form onSubmit={handleSubmit} noValidate className="space-y-4 overflow-y-auto pr-1">
           {/* Title */}
           <div>
-            <label htmlFor="form-title" className="block text-sm font-semibold text-slate-700">
+            <label htmlFor="form-title" className="block text-sm font-bold text-[#1E1B4B]">
               Title <span className="text-red-500">*</span>
             </label>
             <input
@@ -214,21 +214,21 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                 setTitle(e.target.value);
                 if (errors.title) setErrors((prev) => ({ ...prev, title: '' }));
               }}
-              placeholder="e.g. Assignment 1: Distributed Systems Project"
-              className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
+              placeholder="e.g. Assignment 1: Turing Machine Simulator"
+              className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-xl border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
                 errors.title
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                  : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
+                  : 'border-[#E6DEFF] focus:ring-[#3B1FA8] focus:border-[#3B1FA8]'
               }`}
             />
             {errors.title && (
-              <p className="mt-1 text-xs text-red-600 font-medium">{errors.title}</p>
+              <p className="mt-1 text-xs text-red-600 font-semibold">{errors.title}</p>
             )}
           </div>
 
           {/* Description */}
           <div>
-            <label htmlFor="form-description" className="block text-sm font-semibold text-slate-700">
+            <label htmlFor="form-description" className="block text-sm font-bold text-[#1E1B4B]">
               Description <span className="text-red-500">*</span>
             </label>
             <textarea
@@ -240,14 +240,14 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                 if (errors.description) setErrors((prev) => ({ ...prev, description: '' }));
               }}
               placeholder="Provide instructions, project requirements, and rubric details..."
-              className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
+              className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-xl border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
                 errors.description
                   ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                  : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
+                  : 'border-[#E6DEFF] focus:ring-[#3B1FA8] focus:border-[#3B1FA8]'
               }`}
             />
             {errors.description && (
-              <p className="mt-1 text-xs text-red-600 font-medium">{errors.description}</p>
+              <p className="mt-1 text-xs text-red-600 font-semibold">{errors.description}</p>
             )}
           </div>
 
@@ -255,7 +255,7 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Due Date */}
             <div>
-              <label htmlFor="form-due-date" className="block text-sm font-semibold text-slate-700">
+              <label htmlFor="form-due-date" className="block text-sm font-bold text-[#1E1B4B]">
                 Due Date <span className="text-red-500">*</span>
               </label>
               <input
@@ -266,20 +266,20 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                   setDueDate(e.target.value);
                   if (errors.dueDate) setErrors((prev) => ({ ...prev, dueDate: '' }));
                 }}
-                className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 focus:outline-none focus:ring-2 ${
+                className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-xl border text-sm text-slate-800 focus:outline-none focus:ring-2 ${
                   errors.dueDate
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                    : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
+                    : 'border-[#E6DEFF] focus:ring-[#3B1FA8] focus:border-[#3B1FA8]'
                 }`}
               />
               {errors.dueDate && (
-                <p className="mt-1 text-xs text-red-600 font-medium">{errors.dueDate}</p>
+                <p className="mt-1 text-xs text-red-600 font-semibold">{errors.dueDate}</p>
               )}
             </div>
 
             {/* Drive Link */}
             <div>
-              <label htmlFor="form-drive-link" className="block text-sm font-semibold text-slate-700">
+              <label htmlFor="form-drive-link" className="block text-sm font-bold text-[#1E1B4B]">
                 Drive Link <span className="text-red-500">*</span>
               </label>
               <input
@@ -291,21 +291,21 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                   if (errors.driveLink) setErrors((prev) => ({ ...prev, driveLink: '' }));
                 }}
                 placeholder="https://drive.google.com/..."
-                className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-lg border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
+                className={`mt-1.5 block w-full px-3.5 py-2.5 rounded-xl border text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 ${
                   errors.driveLink
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                    : 'border-slate-300 focus:ring-indigo-500 focus:border-indigo-500'
+                    : 'border-[#E6DEFF] focus:ring-[#3B1FA8] focus:border-[#3B1FA8]'
                 }`}
               />
               {errors.driveLink && (
-                <p className="mt-1 text-xs text-red-600 font-medium">{errors.driveLink}</p>
+                <p className="mt-1 text-xs text-red-600 font-semibold">{errors.driveLink}</p>
               )}
             </div>
           </div>
 
           {/* Assign To Section */}
-          <div className="pt-2 border-t border-slate-100">
-            <span className="block text-sm font-semibold text-slate-700 mb-2">
+          <div className="pt-2 border-t border-[#F3EEFF]">
+            <span className="block text-sm font-bold text-[#1E1B4B] mb-2">
               Assign To <span className="text-red-500">*</span>
             </span>
 
@@ -320,9 +320,9 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                     setAssignMode('all');
                     if (errors.assignedTo) setErrors((prev) => ({ ...prev, assignedTo: '' }));
                   }}
-                  className="text-indigo-600 focus:ring-indigo-500"
+                  className="text-[#3B1FA8] focus:ring-[#3B1FA8]"
                 />
-                <span>All students ({students.length})</span>
+                <span className="font-semibold text-[#1E1B4B]">All students ({students.length})</span>
               </label>
 
               <label className="inline-flex items-center gap-2 text-sm text-slate-700 cursor-pointer min-h-[36px]">
@@ -335,21 +335,21 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                     setAssignMode('selected');
                     if (errors.assignedTo) setErrors((prev) => ({ ...prev, assignedTo: '' }));
                   }}
-                  className="text-indigo-600 focus:ring-indigo-500"
+                  className="text-[#3B1FA8] focus:ring-[#3B1FA8]"
                 />
-                <span>Selected students</span>
+                <span className="font-semibold text-[#1E1B4B]">Selected students</span>
               </label>
             </div>
 
             {/* Checkbox list when 'selected' is active */}
             {assignMode === 'selected' && (
-              <div className="mt-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg max-h-44 overflow-y-auto space-y-1">
+              <div className="mt-2 p-3 bg-[#F9F7FF] border border-[#E6DEFF] rounded-2xl max-h-44 overflow-y-auto space-y-1">
                 {students.map((student) => {
                   const isChecked = selectedStudentIds.includes(student.id);
                   return (
                     <label
                       key={student.id}
-                      className="flex items-center gap-2.5 p-2 hover:bg-slate-100 rounded cursor-pointer transition text-xs sm:text-sm min-h-[36px]"
+                      className="flex items-center gap-2.5 p-2 hover:bg-white rounded-xl cursor-pointer transition text-xs sm:text-sm min-h-[36px]"
                     >
                       <input
                         type="checkbox"
@@ -358,9 +358,9 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
                           handleToggleStudent(student.id);
                           if (errors.assignedTo) setErrors((prev) => ({ ...prev, assignedTo: '' }));
                         }}
-                        className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                        className="rounded border-[#E6DEFF] text-[#3B1FA8] focus:ring-[#3B1FA8]"
                       />
-                      <span className="font-medium text-slate-800 truncate">{student.name}</span>
+                      <span className="font-bold text-[#1E1B4B] truncate">{student.name}</span>
                       <span className="text-[11px] text-slate-400 truncate">({student.email})</span>
                     </label>
                   );
@@ -369,23 +369,23 @@ export default function AssignmentForm({ isOpen, initialData, onClose }) {
             )}
 
             {errors.assignedTo && (
-              <p className="mt-1 text-xs text-red-600 font-medium">{errors.assignedTo}</p>
+              <p className="mt-1 text-xs text-red-600 font-semibold">{errors.assignedTo}</p>
             )}
           </div>
 
           {/* Form Actions */}
-          <div className="pt-4 border-t border-slate-100 flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 shrink-0">
+          <div className="pt-4 border-t border-[#F3EEFF] flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 min-h-[44px] rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
+              className="w-full sm:w-auto px-5 py-2.5 text-sm font-bold text-[#3B1FA8] bg-white hover:bg-[#F3EEFF] border border-[#3B1FA8] min-h-[44px] rounded-full transition focus:outline-none focus:ring-2 focus:ring-[#3B1FA8] cursor-pointer"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="w-full sm:w-auto px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 min-h-[44px] rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-2.5 text-sm font-bold text-white bg-[#3B1FA8] hover:bg-[#2E1685] min-h-[44px] rounded-full shadow-md transition focus:outline-none focus:ring-2 focus:ring-[#3B1FA8] cursor-pointer"
             >
               {isEditMode ? 'Save Changes' : 'Create Assignment'}
             </button>

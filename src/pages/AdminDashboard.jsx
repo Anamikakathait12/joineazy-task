@@ -53,25 +53,43 @@ export default function AdminDashboard() {
   };
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-      {/* Page Header with Action Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-            Course Assignments
-          </h2>
-          <p className="mt-1 text-xs sm:text-sm text-slate-500">
-            Manage assignments you created, track student progress, and distribute drive materials.
-          </p>
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+      {/* Section Heading: "My Assignments" with clipboard icon and "+ Create Assignment" button */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-[#E3DAFF]">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-2xl bg-[#EDE7FF] text-[#3B1FA8] flex items-center justify-center shrink-0 shadow-xs">
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2.5"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#1E1B4B]">
+              My Assignments
+            </h2>
+            <p className="mt-0.5 text-xs sm:text-sm text-slate-500 font-medium">
+              Manage your created assignments and track class completion in real time.
+            </p>
+          </div>
         </div>
 
         <div>
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-xs transition focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] bg-[#3B1FA8] hover:bg-[#2E1685] text-white text-sm font-bold rounded-full shadow-md transition focus:outline-none focus:ring-2 focus:ring-[#3B1FA8] cursor-pointer"
           >
-            <span>+</span>
+            <span className="text-base leading-none">+</span>
             <span>Create Assignment</span>
           </button>
         </div>
@@ -86,7 +104,7 @@ export default function AdminDashboard() {
           onAction={handleOpenCreate}
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {adminAssignments.map((assignment) => (
             <AdminAssignmentCard
               key={assignment.id}

@@ -11,7 +11,7 @@ export default function App() {
 
   // Loading state
   if (loading) {
-    return <LoadingSpinner message="Loading dashboard..." />;
+    return <LoadingSpinner message="Loading KarLoJi dashboard..." />;
   }
 
   // Error state
@@ -30,11 +30,11 @@ export default function App() {
     return <LoginPage />;
   }
 
-  // Logged in shell with common header and role-based views
+  // Logged in shell with KarLoJi dark indigo sidebar/topbar and lavender page content
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-[#F3EEFF] to-[#EAE3FF] text-slate-700 flex flex-col">
       <Header />
-      <div className="flex-1">
+      <div className="flex-1 lg:pl-[250px] min-w-0 transition-all">
         {currentUser.role === 'admin' ? (
           <AdminDashboard />
         ) : (

@@ -1,7 +1,8 @@
 import { formatDate } from '../../utils/helpers';
 
 /**
- * StudentStatusList lists each student assigned to an assignment with their submission status.
+ * StudentStatusList lists each student assigned to an assignment with their submission status,
+ * styled for the KarLoJi theme.
  *
  * @param {{
  *   assignment: object,
@@ -14,15 +15,15 @@ export default function StudentStatusList({ assignment, students = [], submissio
 
   if (assignedIds.length === 0) {
     return (
-      <div className="py-4 px-3 text-center bg-white rounded-lg border border-dashed border-slate-200">
-        <p className="text-xs font-semibold text-slate-700">No students assigned</p>
+      <div className="py-4 px-3 text-center bg-white rounded-2xl border border-dashed border-[#E6DEFF]">
+        <p className="text-xs font-bold text-[#1E1B4B]">No students assigned</p>
         <p className="text-[11px] text-slate-400 mt-0.5">Edit this assignment to assign students.</p>
       </div>
     );
   }
 
   return (
-    <ul className="divide-y divide-slate-100 mt-2">
+    <ul className="divide-y divide-[#E6DEFF]/60 mt-1">
       {assignedIds.map((studentId) => {
         const student = students.find((u) => u.id === studentId);
         const submission = submissions.find(
@@ -36,7 +37,7 @@ export default function StudentStatusList({ assignment, students = [], submissio
             className="py-2.5 flex items-center justify-between text-xs gap-2"
           >
             <div className="min-w-0">
-              <p className="font-semibold text-slate-800 truncate">
+              <p className="font-bold text-[#1E1B4B] truncate">
                 {student?.name || `Student (${studentId})`}
               </p>
               <p className="text-[11px] text-slate-400 truncate">
@@ -47,17 +48,31 @@ export default function StudentStatusList({ assignment, students = [], submissio
             <div className="flex flex-col items-end shrink-0">
               {isSubmitted ? (
                 <>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    Submitted
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#DCFCE7] text-[#15803D]">
+                    <svg
+                      className="w-3 h-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="3"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span>Submitted</span>
                   </span>
                   {submission?.submittedAt && (
-                    <span className="text-[10px] text-slate-400 mt-0.5">
+                    <span className="text-[10px] text-slate-400 mt-0.5 font-medium">
                       {formatDate(submission.submittedAt)}
                     </span>
                   )}
                 </>
               ) : (
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#FFEDD5] text-[#C2410C]">
                   Not Submitted
                 </span>
               )}
@@ -68,4 +83,3 @@ export default function StudentStatusList({ assignment, students = [], submissio
     </ul>
   );
 }
-

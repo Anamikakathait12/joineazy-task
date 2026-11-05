@@ -6,7 +6,7 @@ import StudentStatusList from './StudentStatusList';
 
 /**
  * AdminAssignmentCard displays assignment information for professors/admins,
- * including completion progress bar, student status tracking, and Edit/Delete controls.
+ * styled for the KarLoJi theme.
  *
  * @param {{
  *   assignment: object,
@@ -33,37 +33,37 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
   const percentage = totalAssigned > 0 ? Math.round((submittedCount / totalAssigned) * 100) : 0;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-xs hover:border-slate-300 transition flex flex-col justify-between">
+    <div className="bg-white/95 border border-[#E3DAFF] border-l-4 border-l-[#3B1FA8] rounded-3xl p-5 shadow-[0_8px_30px_rgba(91,63,208,0.08)] hover:shadow-xl transition-all flex flex-col justify-between">
       <div>
         {/* Top Header: Due Date & Student Count */}
         <div className="flex items-center justify-between gap-2 flex-wrap mb-3">
-          <span className="text-xs text-slate-500 font-medium">
+          <span className="text-xs text-slate-400 font-medium">
             Due: {formatDate(assignment.dueDate) || 'No deadline'}
           </span>
 
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 shrink-0">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-extrabold bg-[#EDE7FF] text-[#3B1FA8] border border-[#E3DAFF] shrink-0">
             {totalAssigned} {totalAssigned === 1 ? 'student' : 'students'}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-base font-bold text-slate-900 leading-snug break-words">
+        <h3 className="text-base font-bold text-[#1E1B4B] leading-snug break-words">
           {assignment.title}
         </h3>
 
         {/* Description */}
-        <p className="mt-2 text-sm text-slate-600 line-clamp-3 leading-relaxed break-words">
+        <p className="mt-2 text-sm text-slate-500 line-clamp-2 leading-relaxed break-words">
           {assignment.description || 'No description provided.'}
         </p>
 
         {/* Drive Link */}
         {assignment.driveLink && (
-          <div className="mt-4 pt-3 border-t border-slate-100">
+          <div className="mt-3 pt-2.5 border-t border-[#F3EEFF]">
             <a
               href={assignment.driveLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 hover:underline py-1 min-h-[36px]"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#3B1FA8] hover:text-[#2E1685] underline py-0.5"
             >
               <span>Open Drive Link</span>
               <span aria-hidden="true">&rarr;</span>
@@ -72,10 +72,10 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
         )}
 
         {/* Class Completion Progress Bar Section */}
-        <div className="mt-4 pt-3 border-t border-slate-100">
+        <div className="mt-4 pt-3 border-t border-[#F3EEFF]">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs gap-1 mb-1.5">
-            <span className="font-semibold text-slate-700">Class Completion</span>
-            <span className="font-medium text-slate-500">
+            <span className="font-bold text-[#1E1B4B]">Class Completion</span>
+            <span className="font-semibold text-[#3B1FA8]">
               {submittedCount} of {totalAssigned} submitted ({percentage}%)
             </span>
           </div>
@@ -87,16 +87,16 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
           <button
             type="button"
             onClick={() => setIsExpanded((prev) => !prev)}
-            className="w-full text-left flex items-center justify-between text-xs font-semibold text-indigo-600 hover:text-indigo-800 py-1.5 min-h-[36px] transition cursor-pointer"
+            className="w-full text-left flex items-center justify-between text-xs font-bold text-[#3B1FA8] hover:text-[#2E1685] py-1.5 min-h-[36px] transition cursor-pointer"
           >
             <span>{isExpanded ? 'Hide students' : 'View students'}</span>
-            <span className="text-[10px] bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded-md">
+            <span className="text-[10px] bg-[#EDE7FF] text-[#3B1FA8] border border-[#E3DAFF] px-2 py-0.5 rounded-full">
               {isExpanded ? '▲' : '▼'}
             </span>
           </button>
 
           {isExpanded && (
-            <div className="mt-2 p-2.5 bg-slate-50 rounded-lg border border-slate-100 max-h-48 overflow-y-auto">
+            <div className="mt-2 p-3 bg-[#F9F7FF] rounded-2xl border border-[#E3DAFF] max-h-48 overflow-y-auto">
               <StudentStatusList
                 assignment={assignment}
                 students={students}
@@ -107,12 +107,12 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
         </div>
       </div>
 
-      {/* Action Buttons: Edit & Delete */}
-      <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
+      {/* Action Buttons: Edit (Outlined Purple) & Delete (Outlined Red) */}
+      <div className="mt-5 pt-4 border-t border-[#F3EEFF] flex items-center justify-end gap-2.5">
         <button
           type="button"
           onClick={() => onEdit(assignment)}
-          className="px-3.5 py-2 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 min-h-[38px] rounded-lg transition focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer"
+          className="px-4 py-1.5 text-xs font-bold text-[#3B1FA8] bg-white hover:bg-[#EDE7FF] border border-[#3B1FA8] min-h-[36px] rounded-full transition focus:outline-none focus:ring-2 focus:ring-[#3B1FA8] cursor-pointer"
         >
           Edit
         </button>
@@ -120,7 +120,7 @@ export default function AdminAssignmentCard({ assignment, onEdit, onDelete }) {
         <button
           type="button"
           onClick={() => onDelete(assignment)}
-          className="px-3.5 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 min-h-[38px] rounded-lg transition focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
+          className="px-4 py-1.5 text-xs font-bold text-red-600 bg-white hover:bg-red-50 border border-red-300 min-h-[36px] rounded-full transition focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
         >
           Delete
         </button>

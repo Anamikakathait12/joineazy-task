@@ -1,5 +1,5 @@
 /**
- * Reusable ProgressBar component.
+ * Reusable ProgressBar component styled for KarLoJi.
  *
  * @param {{
  *   value: number,
@@ -12,8 +12,8 @@
 export default function ProgressBar({
   value = 0,
   max = 0,
-  color = 'bg-indigo-600',
-  heightClass = 'h-2.5',
+  color = 'bg-[#10B981]',
+  heightClass = 'h-2',
   className = '',
 }) {
   const percentage = max > 0 ? Math.min(100, Math.max(0, Math.round((value / max) * 100))) : 0;
@@ -24,13 +24,12 @@ export default function ProgressBar({
       aria-valuenow={percentage}
       aria-valuemin="0"
       aria-valuemax="100"
-      className={`w-full bg-slate-100 rounded-full overflow-hidden ${heightClass} ${className}`}
+      className={`w-full bg-[#E4DCFF] rounded-full overflow-hidden ${heightClass} ${className}`}
     >
       <div
-        className={`${color} h-full rounded-full transition-all duration-300`}
+        className={`${color} h-full rounded-full transition-all duration-500`}
         style={{ width: `${percentage}%` }}
       />
     </div>
   );
 }
-

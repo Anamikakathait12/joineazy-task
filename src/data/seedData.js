@@ -27,7 +27,7 @@ export const users = [
   {
     id: 'student-3',
     name: 'Will Byers',
-    email: 'will.byers@student.edu',
+    email: 'willbyers@student.edu',
     role: 'student',
   },
   {
